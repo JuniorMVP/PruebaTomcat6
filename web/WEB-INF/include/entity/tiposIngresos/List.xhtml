@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="TiposIngresosListForm">
+
+        <p:panel header="#{myBundle.ListTiposIngresosTitle}">
+            <p:contextMenu id="TiposIngresosDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{myBundle.Create}" onclick="document.getElementById('TiposIngresosListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{myBundle.View}" onclick="document.getElementById('TiposIngresosListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{myBundle.Edit}" onclick="document.getElementById('TiposIngresosListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{myBundle.Delete}" onclick="document.getElementById('TiposIngresosListForm:deleteButton').click();" icon="ui-icon-trash"/>
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{tiposIngresosController.items}"
+                         lazy="false"
+                         rowKey="#{item.id}"
+                         var="item"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{tiposIngresosController.selected}"
+                         filteredValue="#{tiposIngresosController.filteredItems}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{tiposIngresosController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.id}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:TiposIngresosDataTableContextMenu"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:TiposIngresosDataTableContextMenu"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('TiposIngresosListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.id}" filterBy="#{item.id}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListTiposIngresosTitle_id}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.id}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.nombre}" filterBy="#{item.nombre}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListTiposIngresosTitle_nombre}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.nombre}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.dependeSalario}" filterBy="#{item.dependeSalario}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListTiposIngresosTitle_dependeSalario}"/>
+                    </f:facet>
+                    <h:selectBooleanCheckbox id="dependeSalario" value="#{item.dependeSalario}" title="#{myBundle.EditTiposIngresosTitle_dependeSalario}" required="true" requiredMessage="#{myBundle.EditTiposIngresosRequiredMessage_dependeSalario}" disabled="true"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.estado}" filterBy="#{item.estado}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListTiposIngresosTitle_estado}"/>
+                    </f:facet>
+                    <h:selectBooleanCheckbox id="estado" value="#{item.estado}" title="#{myBundle.EditTiposIngresosTitle_estado}" required="true" requiredMessage="#{myBundle.EditTiposIngresosRequiredMessage_estado}" disabled="true"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{myBundle.Create}" actionListener="#{tiposIngresosController.prepareCreate}" update=":TiposIngresosCreateForm" oncomplete="PF('TiposIngresosCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{myBundle.View}" update=":TiposIngresosViewForm" oncomplete="PF('TiposIngresosViewDialog').show()" disabled="#{empty tiposIngresosController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{myBundle.Edit}" update=":TiposIngresosEditForm" oncomplete="PF('TiposIngresosEditDialog').show()" disabled="#{empty tiposIngresosController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{myBundle.Delete}" actionListener="#{tiposIngresosController.delete}" update=":growl,datalist" disabled="#{empty tiposIngresosController.selected}">
+                <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

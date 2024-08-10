@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TiposIngresosViewDlg" widgetVar="TiposIngresosViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.ViewTiposIngresosTitle}" closeOnEscape="true">
+
+            <h:form id="TiposIngresosViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{tiposIngresosController.selected != null}">
+
+                        <h:outputText value="#{myBundle.ViewTiposIngresosLabel_id}"/>
+                        <h:outputText value="#{tiposIngresosController.selected.id}" title="#{myBundle.ViewTiposIngresosTitle_id}"/>
+
+                        <h:outputText value="#{myBundle.ViewTiposIngresosLabel_nombre}"/>
+                        <h:outputText value="#{tiposIngresosController.selected.nombre}" title="#{myBundle.ViewTiposIngresosTitle_nombre}"/>
+
+                        <h:outputText value="#{myBundle.ViewTiposIngresosLabel_dependeSalario}"/>
+                        <p:selectBooleanCheckbox id="dependeSalario" value="#{tiposIngresosController.selected.dependeSalario}" title="#{myBundle.EditTiposIngresosTitle_dependeSalario}" required="true" requiredMessage="#{myBundle.EditTiposIngresosRequiredMessage_dependeSalario}"/>
+
+                        <h:outputText value="#{myBundle.ViewTiposIngresosLabel_estado}"/>
+                        <p:selectBooleanCheckbox id="estado" value="#{tiposIngresosController.selected.estado}" title="#{myBundle.EditTiposIngresosTitle_estado}" required="true" requiredMessage="#{myBundle.EditTiposIngresosRequiredMessage_estado}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{myBundle.Close}" onclick="PF('TiposIngresosViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

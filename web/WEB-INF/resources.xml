@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+  <Resource id="PruebaTomcat6" type="javax.sql.DataSource">#Sat Aug 10 00:43:50 BOT 2024
+jdbcDriver=org.postgresql.Driver
+password=root
+userName=postgres
+jdbcUrl=jdbc\:postgresql\://localhost\:5432/nomina02
+</Resource>
+</resources>

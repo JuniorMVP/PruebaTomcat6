@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TiposDeduccionesCreateDlg" widgetVar="TiposDeduccionesCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{myBundle.CreateTiposDeduccionesTitle}" closeOnEscape="true">
+
+            <h:form id="TiposDeduccionesCreateForm">
+
+                <h:panelGroup id="display" rendered="#{tiposDeduccionesController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{myBundle.CreateTiposDeduccionesLabel_nombre}" for="nombre" />
+                        <p:inputText id="nombre" value="#{tiposDeduccionesController.selected.nombre}" title="#{myBundle.CreateTiposDeduccionesTitle_nombre}" required="true" requiredMessage="#{myBundle.CreateTiposDeduccionesRequiredMessage_nombre}" size="100" maxlength="100"/>
+
+                        <p:outputLabel value="#{myBundle.CreateTiposDeduccionesLabel_dependeSalario}" for="dependeSalario" />
+                        <p:selectBooleanCheckbox id="dependeSalario" value="#{tiposDeduccionesController.selected.dependeSalario}" required="true" requiredMessage="#{myBundle.CreateTiposDeduccionesRequiredMessage_dependeSalario}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateTiposDeduccionesLabel_estado}" for="estado" />
+                        <p:selectBooleanCheckbox id="estado" value="#{tiposDeduccionesController.selected.estado}" required="true" requiredMessage="#{myBundle.CreateTiposDeduccionesRequiredMessage_estado}"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{tiposDeduccionesController.saveNew}" value="#{myBundle.Save}" update="display,:TiposDeduccionesListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('TiposDeduccionesCreateDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{myBundle.Cancel}" oncomplete="PF('TiposDeduccionesCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

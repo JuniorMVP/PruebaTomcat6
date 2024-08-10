@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TiposDeduccionesViewDlg" widgetVar="TiposDeduccionesViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.ViewTiposDeduccionesTitle}" closeOnEscape="true">
+
+            <h:form id="TiposDeduccionesViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{tiposDeduccionesController.selected != null}">
+
+                        <h:outputText value="#{myBundle.ViewTiposDeduccionesLabel_id}"/>
+                        <h:outputText value="#{tiposDeduccionesController.selected.id}" title="#{myBundle.ViewTiposDeduccionesTitle_id}"/>
+
+                        <h:outputText value="#{myBundle.ViewTiposDeduccionesLabel_nombre}"/>
+                        <h:outputText value="#{tiposDeduccionesController.selected.nombre}" title="#{myBundle.ViewTiposDeduccionesTitle_nombre}"/>
+
+                        <h:outputText value="#{myBundle.ViewTiposDeduccionesLabel_dependeSalario}"/>
+                        <p:selectBooleanCheckbox id="dependeSalario" value="#{tiposDeduccionesController.selected.dependeSalario}" title="#{myBundle.EditTiposDeduccionesTitle_dependeSalario}" required="true" requiredMessage="#{myBundle.EditTiposDeduccionesRequiredMessage_dependeSalario}"/>
+
+                        <h:outputText value="#{myBundle.ViewTiposDeduccionesLabel_estado}"/>
+                        <p:selectBooleanCheckbox id="estado" value="#{tiposDeduccionesController.selected.estado}" title="#{myBundle.EditTiposDeduccionesTitle_estado}" required="true" requiredMessage="#{myBundle.EditTiposDeduccionesRequiredMessage_estado}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{myBundle.Close}" onclick="PF('TiposDeduccionesViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

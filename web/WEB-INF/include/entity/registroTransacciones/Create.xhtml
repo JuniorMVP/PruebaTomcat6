@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="RegistroTransaccionesCreateDlg" widgetVar="RegistroTransaccionesCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{myBundle.CreateRegistroTransaccionesTitle}" closeOnEscape="true">
+
+            <h:form id="RegistroTransaccionesCreateForm">
+
+                <h:panelGroup id="display" rendered="#{registroTransaccionesController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{myBundle.CreateRegistroTransaccionesLabel_idIngresoDeduccion}" for="idIngresoDeduccion" />
+                        <p:inputText id="idIngresoDeduccion" value="#{registroTransaccionesController.selected.idIngresoDeduccion}" title="#{myBundle.CreateRegistroTransaccionesTitle_idIngresoDeduccion}" required="true" requiredMessage="#{myBundle.CreateRegistroTransaccionesRequiredMessage_idIngresoDeduccion}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateRegistroTransaccionesLabel_tipoTransaccion}" for="tipoTransaccion" />
+                        <p:inputText id="tipoTransaccion" value="#{registroTransaccionesController.selected.tipoTransaccion}" title="#{myBundle.CreateRegistroTransaccionesTitle_tipoTransaccion}" required="true" requiredMessage="#{myBundle.CreateRegistroTransaccionesRequiredMessage_tipoTransaccion}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateRegistroTransaccionesLabel_fecha}" for="fecha" />
+                        <p:calendar id="fecha" pattern="MM/dd/yyyy" value="#{registroTransaccionesController.selected.fecha}" title="#{myBundle.CreateRegistroTransaccionesTitle_fecha}" required="true" requiredMessage="#{myBundle.CreateRegistroTransaccionesRequiredMessage_fecha}" showOn="button"/>
+
+                        <p:outputLabel value="#{myBundle.CreateRegistroTransaccionesLabel_monto}" for="monto" />
+                        <p:inputText id="monto" value="#{registroTransaccionesController.selected.monto}" title="#{myBundle.CreateRegistroTransaccionesTitle_monto}" required="true" requiredMessage="#{myBundle.CreateRegistroTransaccionesRequiredMessage_monto}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateRegistroTransaccionesLabel_estado}" for="estado" />
+                        <p:selectBooleanCheckbox id="estado" value="#{registroTransaccionesController.selected.estado}" required="true" requiredMessage="#{myBundle.CreateRegistroTransaccionesRequiredMessage_estado}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateRegistroTransaccionesLabel_idAsiento}" for="idAsiento" />
+                        <p:inputText id="idAsiento" value="#{registroTransaccionesController.selected.idAsiento}" title="#{myBundle.CreateRegistroTransaccionesTitle_idAsiento}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateRegistroTransaccionesLabel_idEmpleado}" for="idEmpleado" />
+                        <p:selectOneMenu id="idEmpleado" value="#{registroTransaccionesController.selected.idEmpleado}" required="true" requiredMessage="#{myBundle.CreateRegistroTransaccionesRequiredMessage_idEmpleado}" converter="empleadosConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{empleadosController.items}"
+                                           var="idEmpleadoItem"
+                                           itemValue="#{idEmpleadoItem}"
+                                           itemLabel="#{idEmpleadoItem.id.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{registroTransaccionesController.saveNew}" value="#{myBundle.Save}" update="display,:RegistroTransaccionesListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('RegistroTransaccionesCreateDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{myBundle.Cancel}" oncomplete="PF('RegistroTransaccionesCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

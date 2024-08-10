@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="TiposIngresosEditDlg" widgetVar="TiposIngresosEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.EditTiposIngresosTitle}" closeOnEscape="true">
+
+            <h:form id="TiposIngresosEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{tiposIngresosController.selected != null}">
+
+
+                        <h:outputLabel value="#{myBundle.EditTiposIngresosLabel_id}" for="id" />
+                        <h:outputText id="id" value="#{tiposIngresosController.selected.id}" />
+
+                        <p:outputLabel value="#{myBundle.EditTiposIngresosLabel_nombre}" for="nombre" />
+                        <p:inputText id="nombre" value="#{tiposIngresosController.selected.nombre}" title="#{myBundle.EditTiposIngresosTitle_nombre}" required="true" requiredMessage="#{myBundle.EditTiposIngresosRequiredMessage_nombre}" size="100" maxlength="100"/>
+
+                        <p:outputLabel value="#{myBundle.EditTiposIngresosLabel_dependeSalario}" for="dependeSalario" />
+                        <p:selectBooleanCheckbox id="dependeSalario" value="#{tiposIngresosController.selected.dependeSalario}" required="true" requiredMessage="#{myBundle.EditTiposIngresosRequiredMessage_dependeSalario}"/>
+
+                        <p:outputLabel value="#{myBundle.EditTiposIngresosLabel_estado}" for="estado" />
+                        <p:selectBooleanCheckbox id="estado" value="#{tiposIngresosController.selected.estado}" required="true" requiredMessage="#{myBundle.EditTiposIngresosRequiredMessage_estado}"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{tiposIngresosController.save}" value="#{myBundle.Save}" update="display,:TiposIngresosListForm:datalist,:TiposIngresosListForm:TiposIngresosDataTableContextMenu,:growl" oncomplete="handleSubmit(xhr,status,args,PF('TiposIngresosEditDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{myBundle.Cancel}" oncomplete="PF('TiposIngresosEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

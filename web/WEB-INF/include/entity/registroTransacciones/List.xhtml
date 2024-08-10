@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="RegistroTransaccionesListForm">
+
+        <p:panel header="#{myBundle.ListRegistroTransaccionesTitle}">
+            <p:contextMenu id="RegistroTransaccionesDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{myBundle.Create}" onclick="document.getElementById('RegistroTransaccionesListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{myBundle.View}" onclick="document.getElementById('RegistroTransaccionesListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{myBundle.Edit}" onclick="document.getElementById('RegistroTransaccionesListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{myBundle.Delete}" onclick="document.getElementById('RegistroTransaccionesListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{myBundle.RegistroTransaccionesMenuItem_idEmpleado}" icon="ui-icon-search"  actionListener="#{registroTransaccionesController.prepareIdEmpleado}" update=":EmpleadosViewForm" oncomplete="PF('EmpleadosViewDialog').show()" disabled="#{empty registroTransaccionesController.selected.idEmpleado}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{registroTransaccionesController.items}"
+                         lazy="false"
+                         rowKey="#{item.id}"
+                         var="item"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{registroTransaccionesController.selected}"
+                         filteredValue="#{registroTransaccionesController.filteredItems}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{registroTransaccionesController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.id}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:RegistroTransaccionesDataTableContextMenu" listener="#{registroTransaccionesController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:RegistroTransaccionesDataTableContextMenu" listener="#{registroTransaccionesController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{registroTransaccionesController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('RegistroTransaccionesListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.id}" filterBy="#{item.id}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListRegistroTransaccionesTitle_id}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.id}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.idIngresoDeduccion}" filterBy="#{item.idIngresoDeduccion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListRegistroTransaccionesTitle_idIngresoDeduccion}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idIngresoDeduccion}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.tipoTransaccion}" filterBy="#{item.tipoTransaccion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListRegistroTransaccionesTitle_tipoTransaccion}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.tipoTransaccion}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.fecha}" filterBy="#{item.fecha}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListRegistroTransaccionesTitle_fecha}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.fecha}">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.monto}" filterBy="#{item.monto}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListRegistroTransaccionesTitle_monto}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.monto}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.estado}" filterBy="#{item.estado}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListRegistroTransaccionesTitle_estado}"/>
+                    </f:facet>
+                    <h:selectBooleanCheckbox id="estado" value="#{item.estado}" title="#{myBundle.EditRegistroTransaccionesTitle_estado}" required="true" requiredMessage="#{myBundle.EditRegistroTransaccionesRequiredMessage_estado}" disabled="true"/>
+                </p:column>
+
+                <ui:remove>
+                    <p:column sortBy="#{item.idAsiento}" filterBy="#{item.idAsiento}">
+                        <f:facet name="header">
+                            <h:outputText value="#{myBundle.ListRegistroTransaccionesTitle_idAsiento}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.idAsiento}"/>
+                    </p:column>
+                </ui:remove>
+                <ui:remove>
+                    <p:column sortBy="#{item.idEmpleado.id}" filterBy="#{item.idEmpleado.id}">
+                        <f:facet name="header">
+                            <h:outputText value="#{myBundle.ListRegistroTransaccionesTitle_idEmpleado}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.idEmpleado.id}"/>
+                    </p:column>
+                </ui:remove>
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{myBundle.Create}" actionListener="#{registroTransaccionesController.prepareCreate}" update=":RegistroTransaccionesCreateForm" oncomplete="PF('RegistroTransaccionesCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{myBundle.View}" update=":RegistroTransaccionesViewForm" oncomplete="PF('RegistroTransaccionesViewDialog').show()" disabled="#{empty registroTransaccionesController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{myBundle.Edit}" update=":RegistroTransaccionesEditForm" oncomplete="PF('RegistroTransaccionesEditDialog').show()" disabled="#{empty registroTransaccionesController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{myBundle.Delete}" actionListener="#{registroTransaccionesController.delete}" update=":growl,datalist" disabled="#{empty registroTransaccionesController.selected}">
+                <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

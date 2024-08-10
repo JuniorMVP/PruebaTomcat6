@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="RegistroTransaccionesViewDlg" widgetVar="RegistroTransaccionesViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.ViewRegistroTransaccionesTitle}" closeOnEscape="true">
+
+            <h:form id="RegistroTransaccionesViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{registroTransaccionesController.selected != null}">
+
+                        <h:outputText value="#{myBundle.ViewRegistroTransaccionesLabel_id}"/>
+                        <h:outputText value="#{registroTransaccionesController.selected.id}" title="#{myBundle.ViewRegistroTransaccionesTitle_id}"/>
+
+                        <h:outputText value="#{myBundle.ViewRegistroTransaccionesLabel_idIngresoDeduccion}"/>
+                        <h:outputText value="#{registroTransaccionesController.selected.idIngresoDeduccion}" title="#{myBundle.ViewRegistroTransaccionesTitle_idIngresoDeduccion}"/>
+
+                        <h:outputText value="#{myBundle.ViewRegistroTransaccionesLabel_tipoTransaccion}"/>
+                        <h:outputText value="#{registroTransaccionesController.selected.tipoTransaccion}" title="#{myBundle.ViewRegistroTransaccionesTitle_tipoTransaccion}"/>
+
+                        <h:outputText value="#{myBundle.ViewRegistroTransaccionesLabel_fecha}"/>
+                        <h:outputText value="#{registroTransaccionesController.selected.fecha}" title="#{myBundle.ViewRegistroTransaccionesTitle_fecha}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="#{myBundle.ViewRegistroTransaccionesLabel_monto}"/>
+                        <h:outputText value="#{registroTransaccionesController.selected.monto}" title="#{myBundle.ViewRegistroTransaccionesTitle_monto}"/>
+
+                        <h:outputText value="#{myBundle.ViewRegistroTransaccionesLabel_estado}"/>
+                        <p:selectBooleanCheckbox id="estado" value="#{registroTransaccionesController.selected.estado}" title="#{myBundle.EditRegistroTransaccionesTitle_estado}" required="true" requiredMessage="#{myBundle.EditRegistroTransaccionesRequiredMessage_estado}"/>
+
+                        <h:outputText value="#{myBundle.ViewRegistroTransaccionesLabel_idAsiento}"/>
+                        <h:outputText value="#{registroTransaccionesController.selected.idAsiento}" title="#{myBundle.ViewRegistroTransaccionesTitle_idAsiento}"/>
+
+                        <h:outputText value="#{myBundle.ViewRegistroTransaccionesLabel_idEmpleado}"/>
+                        <h:outputText value="#{registroTransaccionesController.selected.idEmpleado.id}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{myBundle.Close}" onclick="PF('RegistroTransaccionesViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>
